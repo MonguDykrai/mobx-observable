@@ -1,26 +1,24 @@
-// import './style.css';
-// import javascriptLogo from './javascript.svg';
-// import viteLogo from '/vite.svg';
-// import { setupCounter } from './counter.js';
-import { observable } from 'mobx';
-console.log(observable);
+import { observable, autorun, action } from 'mobx';
 
-// document.querySelector('#app').innerHTML = `
-//   <div>
-//     <a href="https://vitejs.dev" target="_blank">
-//       <img src="${viteLogo}" class="logo" alt="Vite logo" />
-//     </a>
-//     <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-//       <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-//     </a>
-//     <h1>Hello Vite!</h1>
-//     <div class="card">
-//       <button id="counter" type="button"></button>
-//     </div>
-//     <p class="read-the-docs">
-//       Click on the Vite logo to learn more
-//     </p>
-//   </div>
-// `;
+let cart = observable({
+  itemCount: 0,
+  modified: new Date(),
+});
 
-// setupCounter(document.querySelector('#counter'));
+autorun(() => {
+  console.log(`The Cart contains ${cart.itemCount} item(s).`);
+}); // => 控制台输出： The Cart containers 0 item(s)
+
+const app = document.getElementById('app');
+
+const button = document.createElement('button');
+button.textContent = 'itemCount + 1';
+button.addEventListener(
+  'click',
+  action((e) => {
+    console.log(e);
+    cart.itemCount = cart.itemCount + 1;
+  })
+);
+
+app.appendChild(button);
